@@ -1,0 +1,337 @@
+.admin-page {
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+  padding: 2rem;
+}
+
+/* Login Styles */
+.login-container {
+  max-width: 500px;
+  margin: 5rem auto;
+  background: white;
+  padding: 3rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.login-container h1 {
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+}
+
+.login-container p {
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.password-input {
+  padding: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.password-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.login-btn {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: white;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+}
+
+.hint {
+  margin-top: 1rem;
+  color: #95a5a6;
+  font-size: 0.9rem;
+}
+
+/* Admin Container */
+.admin-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-header h1 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.header-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.reset-btn, .logout-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.reset-btn {
+  background: #f39c12;
+  color: white;
+}
+
+.reset-btn:hover {
+  transform: translateY(-2px);
+}
+
+.logout-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.logout-btn:hover {
+  transform: translateY(-2px);
+}
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.stat-box {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.stat-box h3 {
+  font-size: 2.5rem;
+  color: #3498db;
+  margin: 0 0 0.5rem 0;
+}
+
+.stat-box p {
+  color: #666;
+  margin: 0;
+}
+
+/* Tanks List */
+.tanks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.admin-tank-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 2rem;
+  align-items: center;
+}
+
+.tank-preview {
+  width: 200px;
+  height: 150px;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.tank-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tank-details h3 {
+  color: #2c3e50;
+  margin: 0 0 1rem 0;
+}
+
+.tank-details p {
+  margin: 0.5rem 0;
+  color: #555;
+}
+
+.tank-details .description {
+  color: #666;
+  font-style: italic;
+  margin-top: 1rem;
+}
+
+.tank-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.edit-btn, .delete-btn {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+  white-space: nowrap;
+}
+
+.edit-btn {
+  background: #3498db;
+  color: white;
+}
+
+.edit-btn:hover {
+  transform: translateY(-2px);
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* Edit Form */
+.edit-form {
+  grid-column: 1 / -1;
+}
+
+.edit-form h3 {
+  color: #2c3e50;
+  margin: 0 0 1.5rem 0;
+}
+
+.edit-row {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: start;
+}
+
+.edit-row label {
+  font-weight: 600;
+  color: #2c3e50;
+  padding-top: 0.75rem;
+}
+
+.edit-row input,
+.edit-row textarea {
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.edit-row input:focus,
+.edit-row textarea:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.edit-row textarea {
+  resize: vertical;
+}
+
+.edit-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.save-btn, .cancel-btn {
+  flex: 1;
+  padding: 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.save-btn {
+  background: #27ae60;
+  color: white;
+}
+
+.save-btn:hover {
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  background: #95a5a6;
+  color: white;
+}
+
+.cancel-btn:hover {
+  transform: translateY(-2px);
+}
+
+@media (max-width: 968px) {
+  .admin-tank-card {
+    grid-template-columns: 1fr;
+  }
+
+  .tank-actions {
+    flex-direction: row;
+  }
+
+  .edit-row {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-row label {
+    padding-top: 0;
+  }
+
+  .admin-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .reset-btn, .logout-btn {
+    flex: 1;
+  }
+}

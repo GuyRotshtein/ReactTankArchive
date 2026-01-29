@@ -3,6 +3,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import AddTank from './pages/AddTank';
 import TankDetails from './pages/TankDetails';
+import Admin from './pages/Admin';
 import './App.css';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/add-tank" element={<AddTank />} />
           <Route path="/tank/:id" element={<TankDetails />} />
+          <Route path="/admin" element={<Admin />} />
         </Routes>
       </div>
     </Router>

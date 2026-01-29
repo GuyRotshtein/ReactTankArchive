@@ -1,14 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TankCard from '../components/TankCard';
 import { tanksData } from '../data/tanksData';
 import './Home.css';
 
 function Home() {
   // Using useState to manage tanks data
-  const [tanks, setTanks] = useState(tanksData);
+  const [tanks, setTanks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Filtering tanks based on search term
+  // Load tanks from localStorage or use default data
+  useEffect(() => {
+    const savedTanks = localStorage.getItem('tanksData');
+    if (savedTanks) {
+      setTanks(JSON.parse(savedTanks));
+    } else {
+      setTanks(tanksData);
+    }
+  }, []);
+
+  // Filter tanks based on search term
   const filteredTanks = tanks.filter(tank =>
     tank.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     tank.country.toLowerCase().includes(searchTerm.toLowerCase())
@@ -17,7 +27,7 @@ function Home() {
   return (
     <div className="home-page">
       <div className="hero-section">
-        <h1 className="hero-title">🎖️ Tank Encyclopedia</h1>
+        <h1 className="hero-title">🎖️ ArmorAtlas</h1>
         <p className="hero-subtitle">
           Explore the most iconic tanks in military history
         </p>
@@ -44,8 +54,8 @@ function Home() {
           </div>
         </div>
 
-        {/* Using .map() to render list of tanks*/}
-        {/* Passing data via props to TankCard component*/}
+        {/* Using .map() to render list of tanks) */}
+        {/* Passing data via props to TankCard component */}
         <div className="tanks-grid">
           {filteredTanks.length > 0 ? (
             filteredTanks.map((tank) => (
