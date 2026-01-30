@@ -208,7 +208,6 @@ function AddTank() {
               className={errors.name ? 'input-error' : ''}
               placeholder="e.g., M4 Sherman"
             />
-            {/* Validation message display (requirement: show validation messages) */}
             {errors.name && <span className="error-message">{errors.name}</span>}
           </div>
 

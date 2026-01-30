@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAllFavorites, selectFavoritesCount } from '../redux/favoritesSlice';
 import TankCard from '../components/TankCard';
@@ -7,7 +8,6 @@ import useApi from '../hooks/useApi';
 import './Home.css';
 
 function Home() {
-  // Using useState to manage tanks data
   const [tanks, setTanks] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
@@ -69,19 +69,23 @@ function Home() {
             Showing <strong>{filteredTanks.length}</strong> out of <strong>{tanks.length}</strong> tanks
           </p>
           
-          {favoritesCount > 0 && (
-            <button 
-              className={`favorites-filter-toggle ${showFavoritesOnly ? 'active' : ''}`}
-              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-              title={showFavoritesOnly ? 'Show all tanks' : 'Show favorites only'}
-            >
-              {showFavoritesOnly ? '⭐ Favorites' : '☆ Favorites'} ({favoritesCount})
-            </button>
-          )}
+          <div className="info-bar-actions">
+            {favoritesCount > 0 && (
+              <button 
+                className={`favorites-filter-toggle ${showFavoritesOnly ? 'active' : ''}`}
+                onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+                title={showFavoritesOnly ? 'Show all tanks' : 'Show favorites only'}
+              >
+                {showFavoritesOnly ? '⭐ Favorites' : '☆ Favorites'} ({favoritesCount})
+              </button>
+            )}
+            
+            <Link to="/add-tank" className="add-tank-button">
+              ➕ Add New Tank
+            </Link>
+          </div>
         </div>
 
-        {/* Using .map() to render list of tanks) */}
-        {/* Passing data via props to TankCard component */}
         <div className="tanks-grid">
           {loading && <p className="no-results">Loading tanks…</p>}
           {filteredTanks.length > 0 ? (

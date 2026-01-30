@@ -10,10 +10,6 @@ function Admin() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Simple password protection
-  const ADMIN_PASSWORD = 'admin123';
-
-  // FINAL PROJECT: tanks live in the database (server API)
   const { data, loading, error, refetch } = useApi(isAuthenticated ? '/api/tanks' : null, {
     autoFetch: isAuthenticated,
     dependencies: [isAuthenticated]
@@ -23,12 +19,27 @@ function Admin() {
     if (data) setTanks(data);
   }, [data]);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true);
-    } else {
-      alert('Incorrect password!');
+    
+    try {
+      const response = await fetch('/api/tanks/admin/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ password })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsAuthenticated(true);
+      } else {
+        alert('Incorrect password!');
+      }
+    } catch (err) {
+      alert('Could not verify password. Please try again.');
     }
   };
 
@@ -90,7 +101,7 @@ function Admin() {
     return (
       <div className="admin-page">
         <div className="login-container">
-          <h1>🔐 Admin Login</h1>
+          <h1>Admin Login</h1>
           <p>Enter the admin password to access the control panel</p>
           <form onSubmit={handleLogin} className="login-form">
             <input

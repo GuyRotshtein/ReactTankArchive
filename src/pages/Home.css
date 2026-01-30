@@ -111,6 +111,43 @@ body.dark .tank-count strong {
   color: #5dade2;
 }
 
+/* Info bar actions container */
+.info-bar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Add Tank button in info bar */
+.add-tank-button {
+  background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+  color: white;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 2px 6px rgba(39, 174, 96, 0.3);
+}
+
+.add-tank-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(39, 174, 96, 0.4);
+}
+
+body.dark .add-tank-button {
+  box-shadow: 0 2px 6px rgba(39, 174, 96, 0.5);
+}
+
+body.dark .add-tank-button:hover {
+  box-shadow: 0 4px 10px rgba(39, 174, 96, 0.6);
+}
+
 /* Small favorites filter toggle button */
 .favorites-filter-toggle {
   background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);

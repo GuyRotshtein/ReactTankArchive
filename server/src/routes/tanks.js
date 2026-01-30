@@ -3,8 +3,19 @@ import { Tank } from '../models/Tank.js';
 
 export const tanksRouter = express.Router();
 
-// POST /api/tanks/reset (dev/admin helper)
-// Provide header: x-admin-password: <password>
+// POST /api/tanks/admin/login
+tanksRouter.post('/admin/login', async (req, res) => {
+  const { password } = req.body;
+  const expected = process.env.ADMIN_PASSWORD || 'admin123';
+  
+  if (password === expected) {
+    return res.json({ success: true });
+  }
+  
+  return res.status(401).json({ success: false, message: 'Invalid password' });
+});
+
+// POST /api/tanks/reset
 tanksRouter.post('/reset', async (req, res) => {
   const headerPwd = req.header('x-admin-password');
   const expected = process.env.ADMIN_PASSWORD || 'admin123';
