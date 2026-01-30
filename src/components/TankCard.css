@@ -136,8 +136,7 @@ body.dark .tank-description {
 }
 
 .view-details-btn {
-  display: flex;
-  justify-content: center;
+  display: inline-block;
   background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
   color: white;
   padding: 0.75rem 1.5rem;
@@ -158,22 +157,4 @@ body.dark .view-details-btn {
 
 body.dark .view-details-btn:hover {
   box-shadow: 0 4px 8px rgba(93, 173, 226, 0.5);
-}
-
-.tank-card-link {
-  text-decoration: none;
-  color: inherit;
-  display: block;
-}
-
-.tank-card-link:hover .tank-card {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
-
-.tank-link-text {
-  display: flex;
-  justify-content: center;
-  margin-top: 0.75rem;
-  font-weight: 500;
 }
