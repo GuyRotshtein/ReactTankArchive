@@ -40,7 +40,7 @@ function Home() {
   return (
     <div className="home-page">
       <div className="hero-section">
-        <h1 className="hero-title">🎖️ ArmorAtlas</h1>
+        <h1 className="hero-title">ArmorAtlas</h1>
         <p className="hero-subtitle">
           Explore the most iconic tanks in military history
         </p>

@@ -103,7 +103,7 @@ function Admin() {
     return (
       <div className="admin-page">
         <div className="login-container">
-          <h1>🔐 Admin Login</h1>
+          <h1>Admin Login</h1>
           <p>Enter the admin password to access the control panel</p>
           <form onSubmit={handleLogin} className="login-form">
             <input
