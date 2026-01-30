@@ -3,6 +3,8 @@ import useApi from '../hooks/useApi';
 import { tanksApi } from '../services/tanksApi';
 import './Admin.css';
 
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+
 function Admin() {
   const [tanks, setTanks] = useState([]);
   const [editingTank, setEditingTank] = useState(null);
@@ -23,7 +25,7 @@ function Admin() {
     e.preventDefault();
     
     try {
-      const response = await fetch('/api/tanks/admin/login', {
+      const response = await fetch(`${API_BASE}/api/tanks/admin/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -82,7 +84,7 @@ function Admin() {
   const resetToDefaults = async () => {
     if (window.confirm('Reset all data to defaults? This cannot be undone!')) {
       try {
-        await fetch('/api/tanks/reset', {
+        await fetch(`${API_BASE}/api/tanks/reset`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -101,7 +103,7 @@ function Admin() {
     return (
       <div className="admin-page">
         <div className="login-container">
-          <h1>Admin Login</h1>
+          <h1>🔐 Admin Login</h1>
           <p>Enter the admin password to access the control panel</p>
           <form onSubmit={handleLogin} className="login-form">
             <input

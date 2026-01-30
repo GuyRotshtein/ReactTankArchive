@@ -2,6 +2,8 @@ import { Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import './Breadcrumbs.css';
 
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+
 function Breadcrumbs() {
   const location = useLocation();
   const [tankName, setTankName] = useState('');
@@ -18,7 +20,7 @@ function Breadcrumbs() {
     
     // Only fetch if we're on a tank details page
     if (paths[0] === 'tank' && paths[1]) {
-      fetch(`/api/tanks/${paths[1]}`)
+      fetch(`${API_BASE}/api/tanks/${paths[1]}`)
         .then(res => res.json())
         .then(data => {
           if (data && data.name) {
