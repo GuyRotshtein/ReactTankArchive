@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorite, selectIsFavorite } from '../redux/favoritesSlice';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { tanksData } from '../data/tanksData';
+import useApi from '../hooks/useApi';
 import './TankDetails.css';
 
 // Fix for default marker icon in Leaflet
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -22,64 +25,46 @@ L.Marker.prototype.options.icon = DefaultIcon;
 function TankDetails() {
   const { id } = useParams();
   
-  // States for loading and error
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [tank, setTank] = useState(null);
+  const dispatch = useDispatch();
+  const isFavorite = useSelector(selectIsFavorite(id));
+  
+  const { data: tank, loading, error } = useApi(`/api/tanks/${id}`);
   const [weatherData, setWeatherData] = useState([]);
 
+  const handleToggleFavorite = () => dispatch(toggleFavorite(id));
+
   useEffect(() => {
-    // Simulating API call with loading and error states
-    const fetchTankData = async () => {
-      try {
-        setLoading(true);
-        setError(null);
+    if (!tank?.locations?.length) {
+      setWeatherData([]);
+      return;
+    }
 
-        // Simulating network delay
-        await new Promise(resolve => setTimeout(resolve, 800));
-
-        // Finding tank from mock data
-        const foundTank = tanksData.find(t => t.id === parseInt(id));
-        
-        if (!foundTank) {
-          throw new Error('Tank not found');
+    const fetchWeather = async () => {
+      const weatherPromises = tank.locations.map(async (location) => {
+        try {
+          const response = await fetch(
+            `https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lng}&current=temperature_2m,weathercode&timezone=auto`
+          );
+          const data = await response.json();
+          return {
+            location: location.name,
+            temperature: data?.current?.temperature_2m ?? 'N/A',
+            weathercode: data?.current?.weathercode ?? null
+          };
+        } catch (err) {
+          console.error('Weather fetch error:', err);
+          return { location: location.name, temperature: 'N/A', weathercode: null };
         }
+      });
 
-        setTank(foundTank);
-
-        // Fetching weather data for each location using a real API
-        // Using Open-Meteo API
-        const weatherPromises = foundTank.locations.map(async (location) => {
-          try {
-            const response = await fetch(
-              `https://api.open-meteo.com/v1/forecast?latitude=${location.lat}&longitude=${location.lng}&current=temperature_2m,weathercode&timezone=auto`
-            );
-            const data = await response.json();
-            return {
-              location: location.name,
-              temperature: data.current.temperature_2m,
-              weathercode: data.current.weathercode
-            };
-          } catch (err) {
-            console.error('Weather fetch error:', err);
-            return { location: location.name, temperature: 'N/A', weathercode: null };
-          }
-        });
-
-        const weather = await Promise.all(weatherPromises);
-        setWeatherData(weather);
-
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+      const weather = await Promise.all(weatherPromises);
+      setWeatherData(weather);
     };
 
-    fetchTankData();
-  }, [id]);
+    fetchWeather();
+  }, [tank]);
 
-  // Getting weather description based on code
+  // Get weather description based on code
   const getWeatherDescription = (code) => {
     if (code === null) return 'Unknown';
     if (code === 0) return '☀️ Clear';
@@ -125,7 +110,16 @@ function TankDetails() {
         </Link>
 
         <div className="tank-header">
-          <h1>{tank.name}</h1>
+          <div className="tank-header-top">
+            <h1>{tank.name}</h1>
+            <button 
+              className={`favorite-btn-large ${isFavorite ? 'active' : ''}`}
+              onClick={handleToggleFavorite}
+              title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+            >
+              {isFavorite ? '⭐ Favorited' : '☆ Add to Favorites'}
+            </button>
+          </div>
           <img src={tank.image} alt={tank.name} className="tank-main-image" />
         </div>
 

@@ -1,6 +1,12 @@
 .home-page {
   min-height: 100vh;
   background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+  transition: background 0.3s ease;
+}
+
+/* Dark mode home page */
+body.dark .home-page {
+  background: linear-gradient(to bottom, #1a1a1a, #2c2c2c);
 }
 
 .hero-section {
@@ -8,6 +14,12 @@
   color: white;
   padding: 4rem 2rem;
   text-align: center;
+  transition: background 0.3s ease;
+}
+
+/* Dark mode hero - different shade */
+body.dark .hero-section {
+  background: linear-gradient(135deg, #1a252f 0%, #2c3e50 100%);
 }
 
 .hero-title {
@@ -35,44 +47,100 @@
   border-radius: 50px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   outline: none;
-  transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s, background 0.3s, color 0.3s;
 }
 
 .search-input:focus {
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
+/* Dark mode search input */
+body.dark .search-input {
+  background: #34495e;
+  color: white;
+}
+
+body.dark .search-input::placeholder {
+  color: #bdc3c7;
+}
+
+body.dark .search-input:focus {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 3rem 2rem;
-}
-
-.stats-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  margin-bottom: 3rem;
-}
-
-.stat-card {
-  background: white;
   padding: 2rem;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.stat-card h3 {
-  font-size: 2.5rem;
-  color: #3498db;
-  margin: 0 0 0.5rem 0;
+/* Info bar with tank count and favorites filter */
+.info-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.stat-card p {
-  color: #666;
+body.dark .info-bar {
+  background: #2c3e50;
+}
+
+.tank-count {
+  color: #2c3e50;
   font-size: 1.1rem;
   margin: 0;
+}
+
+body.dark .tank-count {
+  color: #ecf0f1;
+}
+
+.tank-count strong {
+  color: #3498db;
+  font-size: 1.2rem;
+}
+
+body.dark .tank-count strong {
+  color: #5dade2;
+}
+
+/* Small favorites filter toggle button */
+.favorites-filter-toggle {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 6px rgba(243, 156, 18, 0.3);
+}
+
+.favorites-filter-toggle:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(243, 156, 18, 0.4);
+}
+
+.favorites-filter-toggle.active {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+  box-shadow: 0 3px 8px rgba(255, 215, 0, 0.5);
+}
+
+body.dark .favorites-filter-toggle {
+  box-shadow: 0 2px 6px rgba(243, 156, 18, 0.5);
+}
+
+body.dark .favorites-filter-toggle:hover {
+  box-shadow: 0 4px 10px rgba(243, 156, 18, 0.6);
 }
 
 .tanks-grid {
@@ -87,6 +155,10 @@
   color: #666;
   padding: 2rem;
   grid-column: 1 / -1;
+}
+
+body.dark .no-results {
+  color: #bdc3c7;
 }
 
 @media (max-width: 768px) {

@@ -30,10 +30,62 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+.tank-header-top {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
 .tank-header h1 {
   font-size: 2.5rem;
   color: #2c3e50;
-  margin: 0 0 1.5rem 0;
+  margin: 0;
+}
+
+/* Large Favorite Button */
+.favorite-btn-large {
+  background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 25px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.3);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.favorite-btn-large:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(243, 156, 18, 0.5);
+}
+
+.favorite-btn-large.active {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb700 100%);
+  animation: pulse 0.6s ease;
+}
+
+body.dark .tank-header {
+  background: #2c3e50;
+}
+
+body.dark .tank-header h1 {
+  color: #ecf0f1;
+}
+
+body.dark .favorite-btn-large {
+  box-shadow: 0 4px 12px rgba(243, 156, 18, 0.5);
+}
+
+body.dark .favorite-btn-large:hover {
+  box-shadow: 0 6px 16px rgba(243, 156, 18, 0.7);
 }
 
 .tank-main-image {

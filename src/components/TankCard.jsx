@@ -1,8 +1,19 @@
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleFavorite, selectIsFavorite } from '../redux/favoritesSlice';
 import './TankCard.css';
 
 // TankCard component receives tank data as props
 function TankCard({ tank }) {
+  const tankId = tank._id || tank.id;
+  const dispatch = useDispatch();
+  const isFavorite = useSelector(selectIsFavorite(tankId));
+
+  const handleToggleFavorite = (e) => {
+    e.preventDefault(); // Prevent link navigation
+    dispatch(toggleFavorite(tankId));
+  };
+
   return (
     <div className="tank-card">
       <div className="tank-image-container">
@@ -11,6 +22,14 @@ function TankCard({ tank }) {
           alt={tank.name}
           className="tank-image"
         />
+        {/* Favorite Button */}
+        <button 
+          className={`favorite-btn ${isFavorite ? 'active' : ''}`}
+          onClick={handleToggleFavorite}
+          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          {isFavorite ? '⭐' : '☆'}
+        </button>
       </div>
       <div className="tank-content">
         <h3 className="tank-name">{tank.name}</h3>
@@ -21,7 +40,7 @@ function TankCard({ tank }) {
           <p><strong>Crew:</strong> {tank.crew}</p>
         </div>
         <p className="tank-description">{tank.description}</p>
-        <Link to={`/tank/${tank.id}`} className="view-details-btn">
+        <Link to={`/tank/${tankId}`} className="view-details-btn">
           View Details & Locations 📍
         </Link>
       </div>

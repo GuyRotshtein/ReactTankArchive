@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { tanksData } from '../data/tanksData';
+import useApi from '../hooks/useApi';
+import { tanksApi } from '../services/tanksApi';
 import './Admin.css';
 
 function Admin() {
@@ -9,19 +10,18 @@ function Admin() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Simple password protection (in real app, use proper auth)
+  // Simple password protection
   const ADMIN_PASSWORD = 'admin123';
 
+  // FINAL PROJECT: tanks live in the database (server API)
+  const { data, loading, error, refetch } = useApi(isAuthenticated ? '/api/tanks' : null, {
+    autoFetch: isAuthenticated,
+    dependencies: [isAuthenticated]
+  });
+
   useEffect(() => {
-    // Load tanks from localStorage or use default data
-    const savedTanks = localStorage.getItem('tanksData');
-    if (savedTanks) {
-      setTanks(JSON.parse(savedTanks));
-    } else {
-      setTanks(tanksData);
-      localStorage.setItem('tanksData', JSON.stringify(tanksData));
-    }
-  }, []);
+    if (data) setTanks(data);
+  }, [data]);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -32,20 +32,15 @@ function Admin() {
     }
   };
 
-  const saveTanks = (updatedTanks) => {
-    setTanks(updatedTanks);
-    localStorage.setItem('tanksData', JSON.stringify(updatedTanks));
-  };
-
-  const deleteTank = (id) => {
+  const deleteTank = async (id) => {
     if (window.confirm('Are you sure you want to delete this tank?')) {
-      const updatedTanks = tanks.filter(tank => tank.id !== id);
-      saveTanks(updatedTanks);
+      await tanksApi.remove(id);
+      refetch();
     }
   };
 
   const startEditing = (tank) => {
-    setEditingTank(tank.id);
+    setEditingTank(tank._id);
     setEditForm({ ...tank });
   };
 
@@ -62,19 +57,32 @@ function Admin() {
     });
   };
 
-  const saveEdit = () => {
-    const updatedTanks = tanks.map(tank => 
-      tank.id === editingTank ? editForm : tank
-    );
-    saveTanks(updatedTanks);
+  const saveEdit = async () => {
+    await tanksApi.update(editingTank, {
+      ...editForm,
+      year: Number(editForm.year),
+      crew: Number(editForm.crew)
+    });
     setEditingTank(null);
     setEditForm({});
+    refetch();
   };
 
-  const resetToDefaults = () => {
+  const resetToDefaults = async () => {
     if (window.confirm('Reset all data to defaults? This cannot be undone!')) {
-      saveTanks(tanksData);
-      alert('Data reset to defaults!');
+      try {
+        await fetch('/api/tanks/reset', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-password': password
+          }
+        });
+        alert('Data reset to defaults!');
+        refetch();
+      } catch {
+        alert('Reset failed (server error)');
+      }
     }
   };
 
@@ -124,10 +132,18 @@ function Admin() {
           </div>
         </div>
 
+        {error && (
+          <div className="error-container" role="alert" style={{ marginBottom: 12 }}>
+            ⚠️ Could not load tanks from the server. <button onClick={refetch} className="retry-btn">Retry</button>
+          </div>
+        )}
+
+        {loading && <p>Loading tanks…</p>}
+
         <div className="tanks-list">
-          {tanks.map(tank => (
-            <div key={tank.id} className="admin-tank-card">
-              {editingTank === tank.id ? (
+          {!loading && tanks.map(tank => (
+            <div key={tank._id} className="admin-tank-card">
+              {editingTank === tank._id ? (
                 // Edit Mode
                 <div className="edit-form">
                   <h3>Edit: {tank.name}</h3>
@@ -233,7 +249,7 @@ function Admin() {
                       ✏️ Edit
                     </button>
                     <button 
-                      onClick={() => deleteTank(tank.id)} 
+                      onClick={() => deleteTank(tank._id)} 
                       className="delete-btn"
                     >
                       🗑️ Delete

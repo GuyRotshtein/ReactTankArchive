@@ -7,7 +7,7 @@ export const tanksData = [
     year: 1942,
     weight: "30.3 tons",
     crew: 5,
-    image: "https://images.unsplash.com/photo-1586014513961-1e77bf61f1d6?w=400",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/M4_Sherman_tank_-_Flickr_-_Joost_J._Bakker_IJmuiden.jpg/1280px-M4_Sherman_tank_-_Flickr_-_Joost_J._Bakker_IJmuiden.jpg?w=400",
     description: "The M4 Sherman was the primary tank used by the United States during World War II.",
     locations: [
       { name: "Bovington Tank Museum", lat: 50.6885, lng: -2.1067, country: "UK" },
@@ -21,7 +21,7 @@ export const tanksData = [
     year: 1942,
     weight: "57 tons",
     crew: 5,
-    image: "https://images.unsplash.com/photo-1585737828195-b5f0e0c6e06a?w=400",
+    image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/Tiger_131_%287527948486%29.jpg/1280px-Tiger_131_%287527948486%29.jpg?w=400",
     description: "The Tiger I was a German heavy tank that became one of the most feared weapons of WWII.",
     locations: [
       { name: "Bovington Tank Museum", lat: 50.6885, lng: -2.1067, country: "UK" },
@@ -30,12 +30,12 @@ export const tanksData = [
   },
   {
     id: 3,
-    name: "T-34",
+    name: "T-34-76",
     country: "Soviet Union",
     year: 1940,
     weight: "26.5 tons",
     crew: 4,
-    image: "https://images.unsplash.com/photo-1585737828154-a8cfd5a0c8af?w=400",
+    image: "https://upload.wikimedia.org/wikipedia/commons/4/43/T-34-76_Medium_Tank_%2837661605271%29.jpg?w=400",
     description: "The T-34 is often regarded as one of the best tank designs of World War II.",
     locations: [
       { name: "Kubinka Tank Museum", lat: 55.5667, lng: 36.7167, country: "Russia" },
@@ -44,12 +44,12 @@ export const tanksData = [
   },
   {
     id: 4,
-    name: "Panther",
+    name: "Pz.Kpfw. V Panther ",
     country: "Germany",
     year: 1943,
     weight: "45 tons",
     crew: 5,
-    image: "https://images.unsplash.com/photo-1566933293069-b55c7f326dd4?w=400",
+    image: "https://upload.wikimedia.org/wikipedia/commons/c/c5/Panther_Tank%2C_Bovington.jpg?w=400",
     description: "The Panther was a German medium tank designed as a counter to the Soviet T-34.",
     locations: [
       { name: "Bovington Tank Museum", lat: 50.6885, lng: -2.1067, country: "UK" },
@@ -63,7 +63,7 @@ export const tanksData = [
     year: 1941,
     weight: "40 tons",
     crew: 5,
-    image: "https://images.unsplash.com/photo-1585737828195-b5f0e0c6e06a?w=400",
+    image: "https://upload.wikimedia.org/wikipedia/commons/7/7f/Churchill_Mark_V_Tank%2C_Bovington_Tank_Museum_-_Dorset._%285974558039%29.jpg?w=400",
     description: "The Churchill was a British heavy infantry tank used in WWII.",
     locations: [
       { name: "Bovington Tank Museum", lat: 50.6885, lng: -2.1067, country: "UK" },
@@ -77,7 +77,7 @@ export const tanksData = [
     year: 1980,
     weight: "61.3 tons",
     crew: 4,
-    image: "https://images.unsplash.com/photo-1570366583862-f91883984fde?w=400",
+    image: "https://upload.wikimedia.org/wikipedia/commons/5/59/M1_Abrams_training_in_Iraq_%28original%29.jpg?w=400",
     description: "The M1 Abrams is a third-generation American main battle tank still in service today.",
     locations: [
       { name: "Fort Benning", lat: 32.3561, lng: -84.9501, country: "USA" },

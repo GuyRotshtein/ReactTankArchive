@@ -22,3 +22,24 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables
+.env
+server/.env
+.env.local
+.env.*.local
+
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Build
+dist/
+server/dist/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+ReactTankArchive.zip

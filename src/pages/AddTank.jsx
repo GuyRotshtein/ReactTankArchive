@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { tanksApi } from '../services/tanksApi';
 import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import './AddTank.css';
@@ -18,6 +20,8 @@ let DefaultIcon = L.icon({
 L.Marker.prototype.options.icon = DefaultIcon;
 
 function AddTank() {
+  const navigate = useNavigate();
+
   // Controlled components using useState
   const [formData, setFormData] = useState({
     name: '',
@@ -41,6 +45,8 @@ function AddTank() {
   // State for validation errors
   const [errors, setErrors] = useState({});
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showLocationForm, setShowLocationForm] = useState(false);
 
   // Handle input changes
@@ -50,7 +56,7 @@ function AddTank() {
       ...formData,
       [name]: value
     });
-    
+
     // Clear error for this field when user starts typing
     if (errors[name]) {
       setErrors({
@@ -125,10 +131,10 @@ function AddTank() {
       newErrors.weight = 'Weight is required';
     }
 
-    // Crew validation: must be a number between 1 and 20 - for WW1 and Interwar tanks
+    // Crew validation: must be a number between 1 and 20
     const crewNum = parseInt(formData.crew);
     if (!formData.crew || isNaN(crewNum) || crewNum < 1 || crewNum > 20) {
-      newErrors.crew = 'Crew must be a number between 1 and 10';
+      newErrors.crew = 'Crew must be a number between 1 and 20';
     }
 
     // Description validation: must be at least 10 characters
@@ -140,35 +146,31 @@ function AddTank() {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    setSubmitError('');
+
     const validationErrors = validateForm();
-    
+
     if (Object.keys(validationErrors).length === 0) {
       // No errors - form is valid
-      const completeData = {
+      const payload = {
         ...formData,
+        year: Number(formData.year),
+        crew: Number(formData.crew),
         locations: locations
       };
-      console.log('Form submitted successfully!', completeData);
-      console.log('Tank Details:', formData);
-      console.log('Surviving Example Locations:', locations);
-      setIsSubmitted(true);
-      
-      // Reset form after 2 seconds
-      setTimeout(() => {
-        setFormData({
-          name: '',
-          country: '',
-          year: '',
-          weight: '',
-          crew: '',
-          description: ''
-        });
-        setLocations([]);
-        setIsSubmitted(false);
-      }, 2000);
+
+      try {
+        setIsSubmitting(true);
+        await tanksApi.create(payload);
+        setIsSubmitted(true);
+        setTimeout(() => navigate('/'), 1200);
+      } catch (err) {
+        setSubmitError(err?.message || 'Failed to save tank');
+      } finally {
+        setIsSubmitting(false);
+      }
     } else {
       // Set errors to display
       setErrors(validationErrors);
@@ -179,11 +181,17 @@ function AddTank() {
     <div className="add-tank-page">
       <div className="form-container">
         <h1 className="form-title">➕ Add New Tank</h1>
-        <p className="form-subtitle">Fill in the details to add a new tank to the Atlas</p>
-        
+        <p className="form-subtitle">Fill in the details to add a new tank to the encyclopedia</p>
+
         {isSubmitted && (
           <div className="success-message">
-            ✅ Tank added successfully! Check the console for details.
+            ✅ Tank added successfully! Redirecting to home page...
+          </div>
+        )}
+
+        {submitError && (
+          <div className="error-message" role="alert" style={{ marginBottom: 12 }}>
+            ❌ {submitError}
           </div>
         )}
 
@@ -200,7 +208,7 @@ function AddTank() {
               className={errors.name ? 'input-error' : ''}
               placeholder="e.g., M4 Sherman"
             />
-            {/* Validation message display */}
+            {/* Validation message display (requirement: show validation messages) */}
             {errors.name && <span className="error-message">{errors.name}</span>}
           </div>
 
@@ -291,7 +299,7 @@ function AddTank() {
           <div className="locations-section">
             <h3>📍 Surviving Examples (Optional)</h3>
             <p className="section-subtitle">Add museum locations where this tank can be found</p>
-            
+
             {locations.length > 0 && (
               <div className="added-locations">
                 {locations.map((loc, index) => (
@@ -302,8 +310,8 @@ function AddTank() {
                       <br />
                       <small>📍 {loc.lat}°N, {Math.abs(loc.lng)}°{loc.lng >= 0 ? 'E' : 'W'}</small>
                     </div>
-                    <button 
-                      type="button" 
+                    <button
+                      type="button"
                       onClick={() => removeLocation(index)}
                       className="remove-location-btn"
                     >
@@ -315,7 +323,7 @@ function AddTank() {
             )}
 
             {!showLocationForm ? (
-              <button 
+              <button
                 type="button"
                 onClick={() => setShowLocationForm(true)}
                 className="add-location-btn"
@@ -391,8 +399,8 @@ function AddTank() {
                 </div>
 
                 {/* Map Preview */}
-                {currentLocation.lat && currentLocation.lng && 
-                 !isNaN(parseFloat(currentLocation.lat)) && 
+                {currentLocation.lat && currentLocation.lng &&
+                 !isNaN(parseFloat(currentLocation.lat)) &&
                  !isNaN(parseFloat(currentLocation.lng)) && (
                   <div className="map-preview">
                     <p><strong>📍 Location Preview:</strong></p>
@@ -411,14 +419,14 @@ function AddTank() {
                 )}
 
                 <div className="location-form-buttons">
-                  <button 
+                  <button
                     type="button"
                     onClick={addLocation}
                     className="save-location-btn"
                   >
                     ✓ Save Location
                   </button>
-                  <button 
+                  <button
                     type="button"
                     onClick={() => {
                       setShowLocationForm(false);
@@ -433,8 +441,8 @@ function AddTank() {
             )}
           </div>
 
-          <button type="submit" className="submit-btn">
-            Add Tank to Encyclopedia
+          <button type="submit" className="submit-btn" disabled={isSubmitting}>
+            {isSubmitting ? 'Saving…' : 'Add Tank to Encyclopedia'}
           </button>
         </form>
       </div>
