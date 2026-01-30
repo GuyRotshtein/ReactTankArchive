@@ -41,7 +41,7 @@ function TankCard({ tank }) {
         </div>
         <p className="tank-description">{tank.description}</p>
         <Link to={`/tank/${tankId}`} className="view-details-btn">
-          View Details & Locations 📍
+          View Details & Locations
         </Link>
       </div>
     </div>

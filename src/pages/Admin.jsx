@@ -103,7 +103,7 @@ function Admin() {
     return (
       <div className="admin-page">
         <div className="login-container">
-          <h1>🔐 Admin Login</h1>
+          <h1>Admin Login</h1>
           <p>Enter the admin password to access the control panel</p>
           <form onSubmit={handleLogin} className="login-form">
             <input
@@ -117,7 +117,7 @@ function Admin() {
               Login
             </button>
           </form>
-          <p className="hint">Hint: admin123</p>
+          {/*<p className="hint">Hint: admin123</p>*/}
         </div>
       </div>
     );
@@ -127,7 +127,7 @@ function Admin() {
     <div className="admin-page">
       <div className="admin-container">
         <div className="admin-header">
-          <h1>🛠️ Admin Control Panel</h1>
+          <h1>Admin Control Panel</h1>
           <div className="header-actions">
             <button onClick={resetToDefaults} className="reset-btn">
               🔄 Reset to Defaults
