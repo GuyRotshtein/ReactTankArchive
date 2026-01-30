@@ -2,7 +2,7 @@ ArmorAtlas - User manual
 
 Link to GitHub repository:
 
-
+https://github.com/GuyRotshtein/ReactTankArchive.git
 
 
 Project setup:
