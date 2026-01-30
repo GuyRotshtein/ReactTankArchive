@@ -1,5 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 
+// In production (e.g., Render static site), Vite's dev proxy does not exist.
+// Use VITE_API_BASE to route /api/* calls to the deployed backend.
+const API_BASE = import.meta.env.VITE_API_BASE || '';
+
+
 /**
  * Custom hook for API calls with loading and error states
  * @param {string} url - API endpoint URL
@@ -28,7 +33,9 @@ function useApi(url, options = {}) {
       setLoading(true);
       setError(null);
 
-      const response = await fetch(url, fetchOptions);
+      const finalUrl = (typeof url === "string" && url.startsWith("/api") && API_BASE) ? `${API_BASE}${url}` : url;
+
+      const response = await fetch(finalUrl, fetchOptions);
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

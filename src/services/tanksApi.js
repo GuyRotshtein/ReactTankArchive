@@ -1,5 +1,4 @@
 const API_BASE = import.meta.env.VITE_API_BASE || '';
-console.log('🔍 API_BASE:', API_BASE, 'from env:', import.meta.env.VITE_API_BASE);
 
 async function apiFetch(path, options) {
   const res = await fetch(`${API_BASE}${path}`, {
